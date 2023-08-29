@@ -1,0 +1,229 @@
+
+this project is about the students that have to store there data
+for a long time sow we don't need to make it fast in some parts 
+like when we do not add ajax we just make sur we don't reload 
+the page when we retrive data 
+
+
+
+------------------------------------------------------------------------------------
+
+1-First you need to create a database named 'mybe'
+2-then go to sql and just past this tables 
+
+CREATE TABLE ANNEE (
+    id_annee INT PRIMARY KEY,
+    annee VARCHAR(4) NOT NULL UNIQUE
+);
+
+CREATE TABLE FILIERE (
+    id_filiere INT PRIMARY KEY,
+    nom_filiere VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE CLASS (
+    id_class INT PRIMARY KEY,
+    nom_class VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE ETUDIANTS (
+    id_etudiant INT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    prenom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    telephone VARCHAR(255),
+    adresse VARCHAR(255)
+);
+
+CREATE TABLE DOCUMENT (
+    id_document INT PRIMARY KEY,
+    titre VARCHAR(255) NOT NULL,
+
+    date_creation DATE NOT NULL,
+    type_document VARCHAR(255) NOT NULL,
+    id_etudiant INT NOT NULL,
+    imageName VARCHAR(255) NULL,
+     file_path VARCHAR(255) NULL,
+    FOREIGN KEY (id_etudiant) REFERENCES ETUDIANTS(id_etudiant)
+);
+
+CREATE TABLE UTILISATEUR (
+    id_utilisateur INT PRIMARY KEY,
+    nom_utilisateur VARCHAR(255) NOT NULL UNIQUE,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    type_utilisateur VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE ETUDIANTS_FILIERE (
+    id_etudiant INT,
+    id_filiere INT,
+    PRIMARY KEY (id_etudiant, id_filiere),
+    FOREIGN KEY (id_etudiant) REFERENCES ETUDIANTS(id_etudiant),
+    FOREIGN KEY (id_filiere) REFERENCES FILIERE(id_filiere)
+);
+
+CREATE TABLE ETUDIANTS_CLASS (
+    id_etudiant INT,
+    id_class INT,
+    PRIMARY KEY (id_etudiant, id_class),
+    FOREIGN KEY (id_etudiant) REFERENCES ETUDIANTS(id_etudiant),
+    FOREIGN KEY (id_class) REFERENCES CLASS(id_class)
+);
+
+CREATE TABLE ETUDIANTS_ANNEE (
+    id_etudiant INT,
+    id_annee INT,
+    PRIMARY KEY (id_etudiant, id_annee),
+    FOREIGN KEY (id_etudiant) REFERENCES ETUDIANTS(id_etudiant),
+    FOREIGN KEY (id_annee) REFERENCES ANNEE(id_annee)
+);
+
+CREATE TABLE DOCUMENT_FILIERE (
+    id_document INT,
+    id_filiere INT,
+    PRIMARY KEY (id_document, id_filiere),
+    FOREIGN KEY (id_document) REFERENCES DOCUMENT(id_document),
+    FOREIGN KEY (id_filiere) REFERENCES FILIERE(id_filiere)
+);
+
+CREATE TABLE DOCUMENT_CLASS (
+    id_document INT,
+    id_class INT,
+    PRIMARY KEY (id_document, id_class),
+    FOREIGN KEY (id_document) REFERENCES DOCUMENT(id_document),
+    FOREIGN KEY (id_class) REFERENCES CLASS(id_class)
+);
+
+CREATE TABLE DOCUMENT_ANNEE (
+    id_document INT,
+    id_annee INT,
+    PRIMARY KEY (id_document, id_annee),
+    FOREIGN KEY (id_document) REFERENCES DOCUMENT(id_document),
+    FOREIGN KEY (id_annee) REFERENCES ANNEE(id_annee)
+);
+
+
+
+INSERT INTO UTILISATEUR (id_utilisateur, nom_utilisateur, mot_de_passe, type_utilisateur)  VALUES (1, 'admin', 'admin', 'admin');
+
+                                            +-----------+
+                                            |   ANNEE   |
+                                            +-----------+
+                                            | id_annee  |
+                                            | annee     |
+                                            +-----------+
+
+                                                 |
+                                                 |
+                                                 |
+                                                 |
+
+                                           +-----------+
+                                           |   FILIERE  |
+                                           +-----------+
+                                           | id_filiere |
+                                           | nom_filiere|
+                                           +-----------+
+
+                                                 |
+                                                 |
+                                                 |
+                                                 |
+
+                                           +-----------+
+                                           |   CLASS   |
+                                           +-----------+
+                                           | id_class  |
+                                           | nom_class |
+                                           +-----------+
+
+                                | | | | | |       | 
+                                |                 |
+                                |                 |
+                                |                 |
+
+                    +-------------+          +-------------+             +-----------------+
+                    |  DOCUMENT   |          |  ETUDIANTS  |             |   UTILISATEUR   |
+                    +-------------+          +-------------+             +-----------------+
+                    | id_document  |         | id_etudiant |             | id_utilisateur  |
+                    | titre        |         | nom         |             | nom_utilisateur |
+                    |    imageName |         | prenom      |             | mot_de_passe    |
+                    | date_creation|         | email       |             | type_utilisateur|
+                    | type_document|         | telephone   |             +-----------------+
+                    | id_etudiant  |         | adresse     |      
+                    | file_path    |         |             |      
+                    +-------------+          -------------+      
+
+                             |                      |
+                             |                      |              
+                             |                      |
+                             |                      |
+       
+            +-----------------+     +-----------------+
+            | DOCUMENT_FILIERE|     | ETUDIANTS_FILIERE|
+            +-----------------+     +-----------------+
+            | id_document     |     | id_etudiant     |
+            | id_filiere      |     | id_filiere      |
+            +-----------------+     +-----------------+
+       
+                             |                      |
+                             |                      |
+                             |                      |
+                             |                      |
+       
+            +-----------------+     +-----------------+
+            |  DOCUMENT_CLASS |     |  ETUDIANTS_CLASS|
+            +-----------------+     +-----------------+
+            | id_document     |     | id_etudiant     |
+            | id_class        |     | id_class        |
+            +-----------------+     +-----------------+
+       
+                             |                      |
+                             |                      |
+                             |                      |
+                             |                      |
+       
+            +-----------------+     +-----------------+
+            |  DOCUMENT_ANNEE |     |  ETUDIANTS_ANNEE|
+            +-----------------+     +-----------------+
+            | id_document     |     | id_etudiant     |
+            | id_annee        |     | id_annee        |
+            +-----------------+     +-----------------+
+
+                               
+                               
+                               
+                               
+
+                               
+                               
+                               
+                               
+                               
+                               
+
+                               
+                               
+                               
+                               
+
+                               
+                               
+                               
+                               
+                               
+                               
+
+                               
+                               
+                               
+                               
+
+                               
+                               
+                               
+                               
+                               
+                               
+
+                                   
